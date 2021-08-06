@@ -1,0 +1,27 @@
+<section>
+  <header>
+    <h1>Ejemplo de formulario de registro</h1>
+    <h2>Formularios Reactivos</h2>
+  </header>
+  <form [formGroup]="formGroup">
+    <p>
+      <label for="username">Nombre de usuario</label>
+      <input type="email" name="username" id="username" formControlName="username">
+      <span class="error">{{getError("username")}}</span>
+    </p>
+    <p>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" formControlName="password">
+      <span class="error">{{getError("password")}}</span>
+    </p>
+    <p>
+      <label for="nombre">Nombre</label>
+      <input type="text" name="nombre" id="nombre" formControlName="name">
+      <span class="error">{{getError("name")}}</span>
+    </p>
+    <p>
+      <button (click)="registro()" [disabled]="formGroup.invalid">Registrarme</button>
+    </p>
+  </form>
+</section>
+<pre>{{datosWS | json}}</pre>

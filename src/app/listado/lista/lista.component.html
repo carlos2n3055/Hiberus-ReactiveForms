@@ -1,0 +1,136 @@
+<section>
+  <header>
+    <h2>
+      {{encabezado}}
+    </h2>
+    <p>{{descripcion | uppercase}}</p>
+  </header>
+  <p>Numero de contacto que tenemos: <mark>{{numeroContactos}}</mark></p>
+
+  <input
+    value="Mostrar formulario"
+    type="button"
+    (click) = "formHidden=false"
+  />
+
+  <input
+    value="Ocultar formulario"
+    type="button"
+    (click) = "formHidden=true"
+  />
+
+  <form [ngClass] = "{'hidden':formHidden}" [formGroup]="formGroup">
+    <fieldset>
+      <legend>
+        Formulario de contacto
+      </legend>
+
+      <div>
+        <label for="name">Nombre</label>
+        <input
+          id="name"
+          name = "name"
+          type = "text"
+          placeholder="Introduce tu nombre"
+          formControlName="name"
+        />
+      </div>
+
+      <div>
+        <label for="vip">¿Es VIP?</label>
+        <input
+          name="vip"
+          id="vip"
+          type = "checkbox"
+          formControlName="vip"
+        />
+      </div>
+
+      <div>
+        <label for="genero">Genero</label>
+        <input
+          name="genero"
+          value="H"
+          type = "radio"
+          formControlName="genero"
+          />
+          <i>Hombre</i>
+          <input
+          name="genero"
+          value="M"
+          type = "radio"
+          formControlName="genero"
+          />
+          <i>Mujer</i>
+          <input
+          name="genero"
+          value="O"
+          type = "radio"
+          formControlName="genero"
+          />
+          <i>Otros</i>
+      </div>
+
+      <div>
+        <label for="estadoLaboral">Estado Laboral </label>
+        <select name="estadoLaboral" id="estadoLaboral"
+        formControlName="estadoLaboral"
+        >
+        <option *ngFor="let estado of estadosLaborales"
+        [value]="estado.id">
+            {{estado.descripcion}}
+        </option>
+        </select>
+      </div>
+
+      <div *ngIf="formGroup.value.estadoLaboral==2; else no_trabajo">
+        <label for="empresa">Empresa en la que trabajas</label>
+        <input
+          name="empresa"
+          id="empresa"
+          type="text"
+          formControlName="empresa"
+        />
+      </div>
+
+      <ng-template #no_trabajo>
+        <h1>Buscate un trabajo!!!!!!</h1>
+      </ng-template>
+
+      <input
+        type="button"
+        value="Guardar"
+        (click)="guardarContacto()"
+        [disabled]="formGroup.invalid"
+      />
+
+      <input type="button" name="nuevo" id="nuevo" value="Nuevo"
+      (click)="nuevoContacto()"
+      [ngClass] = "{'hidden':!editando}" />
+
+      <input type="button" name="descartar" id="descartar" value="Descartar Cambios"
+      (click)="descartarCambios()"
+      [ngClass] = "{'hidden':!editando}" />
+
+    </fieldset>
+  </form>
+
+  <ul *ngIf="listaContactos.length > 0; else vacia">
+    <li *ngFor="let contacto of listaContactos">
+      Datos: <span>{{contacto | json}}</span>
+      <input type="button" name="borrar" id="borrar" value="Borrar"
+      (click)="borrarContacto(contacto)"
+      />
+      <input type="button" name="editar" id="editar" value="Editar"
+      (click)="editarContacto(contacto)"
+      />
+    </li>
+  </ul>
+
+  <ng-template #vacia>
+    <h1>No tenemos contactos todavia</h1>
+  </ng-template>
+
+  <pre>{{listaContactos | json}}</pre>
+
+</section>
